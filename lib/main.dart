@@ -8,7 +8,7 @@ import 'pages/home_page.dart';
 Future<void> main() async {
   await dotenv.load(fileName: ".env");
   await Supabase.initialize(
-    url: 'https://cllcycrxpolmczpzfnzr.supabase.co',
+    url: 'https://dvwudwlymuhkxtmynxpo.supabase.co',
     anonKey: dotenv.env['ANONKEYSUPABASE']!,
   );
   runApp(MaterialApp(
