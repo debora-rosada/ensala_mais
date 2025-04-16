@@ -1,4 +1,5 @@
-import 'package:ensala_mais/widgets/scheduling_dialog.dart';
+import 'package:ensala_mais/utils/project_colors.dart';
+import 'package:ensala_mais/widgets/navbar_link.dart';
 import 'package:flutter/material.dart';
 import 'package:table_calendar/table_calendar.dart';
 
@@ -15,7 +16,6 @@ class _HomePageState extends State<HomePage> {
 
   // Instead of initializing in initState, just add the "late" modifier.
   late DateTime _selectedDay = _focusedDay;
-  Color _textColor = Colors.white;
 
   @override
   void initState() {
@@ -35,60 +35,57 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        actions: [
-          MouseRegion(
-            onExit: (event) {
-              setState(() {
-                _textColor = Colors.white;
-              });
+      // appBar: AppBar(
+      //   leading: Row(
+      //     mainAxisAlignment: MainAxisAlignment.start,
+      //     children: [
+      //       NavbarLink(text: 'Professores'),
+      //       NavbarLink(text: 'Salas'),
+      //       NavbarLink(text: 'Turmas'),
+      //     ],
+      //   ),
+      //   backgroundColor: ProjectColors().mainGreen,
+      // ),
+      body: Column(
+        mainAxisAlignment: MainAxisAlignment.start,
+        children: [
+          Container(
+            height: 40,
+            color: ProjectColors().mainGreen,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                NavbarLink(text: 'Professores'),
+                NavbarLink(text: 'Salas'),
+                NavbarLink(text: 'Turmas'),
+              ],
+            ),
+          ),
+          TableCalendar(
+            availableGestures: AvailableGestures.all,
+            calendarFormat: CalendarFormat.week,
+            firstDay: DateTime(1970),
+            lastDay: DateTime(2040),
+            focusedDay: _focusedDay,
+            eventLoader: (day) {
+              // Use a null aware operator "??" to make this line simpler. If
+              // _events[day] is null, return the empty list instead.
+              return _events[day] ?? [];
             },
-            onHover: (event) {
-              setState(() {
-                _textColor = Color(0xffF1E0C5);
-              });
+            onDaySelected: (selectedDay, focusedDay) {
+              if (!isSameDay(_selectedDay, selectedDay)) {
+                print('passei aqui');
+                setState(() {
+                  _selectedDay = selectedDay;
+                  _focusedDay = focusedDay;
+                });
+              }
             },
-            child: TextButton(
-                style: ButtonStyle(
-                  backgroundColor: WidgetStatePropertyAll(Colors.transparent),
-                  overlayColor: WidgetStatePropertyAll(Colors.transparent),
-                ),
-                onPressed: () {
-                  print('entrei no modulo professores');
-                },
-                child: Text(
-                  'Professores',
-                  style: TextStyle(
-                    color: _textColor,
-                  ),
-                )),
-          )
+            selectedDayPredicate: (day) {
+              return isSameDay(_selectedDay, day);
+            },
+          ),
         ],
-        backgroundColor: Color(0xff235319),
-      ),
-      body: TableCalendar(
-        availableGestures: AvailableGestures.all,
-        calendarFormat: CalendarFormat.week,
-        firstDay: DateTime(1970),
-        lastDay: DateTime(2040),
-        focusedDay: _focusedDay,
-        eventLoader: (day) {
-          // Use a null aware operator "??" to make this line simpler. If
-          // _events[day] is null, return the empty list instead.
-          return _events[day] ?? [];
-        },
-        onDaySelected: (selectedDay, focusedDay) {
-          if (!isSameDay(_selectedDay, selectedDay)) {
-            print('passei aqui');
-            setState(() {
-              _selectedDay = selectedDay;
-              _focusedDay = focusedDay;
-            });
-          }
-        },
-        selectedDayPredicate: (day) {
-          return isSameDay(_selectedDay, day);
-        },
       ),
     );
   }

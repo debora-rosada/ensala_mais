@@ -1,3 +1,4 @@
+import 'package:ensala_mais/utils/project_colors.dart';
 import 'package:flutter/material.dart';
 
 class SchedulingDialog extends StatelessWidget {
@@ -18,9 +19,10 @@ class SchedulingDialog extends StatelessWidget {
       actions: <Widget>[
         TextButton(
           style: ButtonStyle(
-              overlayColor:
-                  WidgetStatePropertyAll(Color.fromARGB(255, 204, 225, 192)),
-              foregroundColor: WidgetStatePropertyAll(Color(0xFF50713c))),
+              overlayColor: WidgetStatePropertyAll(
+                  ProjectColors().errorButtonForegroundColor),
+              foregroundColor:
+                  WidgetStatePropertyAll(ProjectColors().buttonTextColor)),
           child: const Text('Confirmar'),
           onPressed: () {
             Navigator.of(context).pop();

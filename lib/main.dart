@@ -4,6 +4,7 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 import 'pages/home_page.dart';
+import 'utils/project_colors.dart';
 
 Future<void> main() async {
   await dotenv.load(fileName: ".env");
@@ -13,7 +14,7 @@ Future<void> main() async {
   );
   runApp(MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: const HomePage())); //TODO lembrar de voltar
+      home: const MainApp())); //TODO lembrar de voltar
 }
 
 class MainApp extends StatelessWidget {
@@ -23,9 +24,10 @@ class MainApp extends StatelessWidget {
   Widget build(BuildContext context) {
     TextEditingController _emailController = TextEditingController();
     TextEditingController _passwordController = TextEditingController();
+    ProjectColors projectColors = ProjectColors();
 
     return Scaffold(
-      backgroundColor: Color(0xFFa4bc98),
+      backgroundColor: projectColors.backgroundColor,
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -39,12 +41,12 @@ class MainApp extends StatelessWidget {
                   ? 400
                   : MediaQuery.of(context).size.width * 0.8,
               child: Card(
-                color: Color(0xFFf4f6ec),
-                margin: EdgeInsets.all(50),
+                color: projectColors.cardColor,
+                margin: EdgeInsets.all(40),
                 child: Padding(
                   padding: const EdgeInsets.all(16.0),
                   child: Column(
-                    spacing: 16,
+                    spacing: 8,
                     children: [
                       TextField(
                         controller: _emailController,
@@ -52,7 +54,7 @@ class MainApp extends StatelessWidget {
                           label: Text('Email'),
                           enabledBorder: OutlineInputBorder(
                               borderRadius:
-                                  BorderRadius.all(Radius.circular(8))),
+                                  BorderRadius.all(Radius.circular(6))),
                           focusedBorder: OutlineInputBorder(),
                         ),
                       ),
@@ -62,7 +64,7 @@ class MainApp extends StatelessWidget {
                           label: Text('Senha'),
                           enabledBorder: OutlineInputBorder(
                               borderRadius:
-                                  BorderRadius.all(Radius.circular(8))),
+                                  BorderRadius.all(Radius.circular(6))),
                           focusedBorder: OutlineInputBorder(),
                         ),
                       ),
@@ -108,7 +110,7 @@ class MainApp extends StatelessWidget {
                             label: Text(
                               'Cadastrar',
                               style: TextStyle(
-                                color: Color(0xFF50713c),
+                                color: projectColors.buttonTextColor,
                                 fontWeight: FontWeight.bold,
                                 fontSize: 16,
                               ),
@@ -153,14 +155,14 @@ class MainApp extends StatelessWidget {
                             label: Text(
                               'Entrar',
                               style: TextStyle(
-                                color: Color(0xFF50713c),
+                                color: projectColors.buttonTextColor,
                                 fontWeight: FontWeight.bold,
                                 fontSize: 16,
                               ),
                             ),
                             icon: Icon(
                               Icons.login,
-                              color: Color(0xFF50713c),
+                              color: projectColors.buttonTextColor,
                             ),
                           ),
                         ],
