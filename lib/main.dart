@@ -33,25 +33,29 @@ class MainApp extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Image.network(
-              'https://unicv.edu.br/wp-content/uploads/2020/12/logo-verde-280X100.png',
-              scale: 1,
+              'https://unicv.edu.br/wp-content/uploads/2020/12/LOGO-BRANCO-438X166px.webp',
+              scale: 1.5,
             ),
             SizedBox(
               width: MediaQuery.of(context).size.width > 400
                   ? 400
-                  : MediaQuery.of(context).size.width * 0.8,
+                  : MediaQuery.of(context).size.width * 0.9,
               child: Card(
                 color: projectColors.cardColor,
-                margin: EdgeInsets.all(40),
+                margin: EdgeInsets.all(15),
                 child: Padding(
-                  padding: const EdgeInsets.all(16.0),
+                  padding: const EdgeInsets.all(20.0),
                   child: Column(
                     spacing: 8,
                     children: [
                       TextField(
                         controller: _emailController,
+                        cursorColor: projectColors.cursorColor,
                         decoration: InputDecoration(
                           label: Text('Email'),
+                          labelStyle: TextStyle(
+                            color: projectColors.cursortextColor,
+                          ),
                           enabledBorder: OutlineInputBorder(
                               borderRadius:
                                   BorderRadius.all(Radius.circular(6))),
@@ -60,8 +64,12 @@ class MainApp extends StatelessWidget {
                       ),
                       TextField(
                         controller: _passwordController,
+                        cursorColor: projectColors.cursorColor,
                         decoration: InputDecoration(
                           label: Text('Senha'),
+                          labelStyle: TextStyle(
+                            color: projectColors.cursortextColor,
+                          ),
                           enabledBorder: OutlineInputBorder(
                               borderRadius:
                                   BorderRadius.all(Radius.circular(6))),
