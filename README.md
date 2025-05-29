@@ -1,4 +1,4 @@
-# ensala_mais
+# Ensala Mais
 
 ## Visão Geral do Projeto
 O Disparador de Webhooks é uma solução desenvolvida para o PlugBoleto que permite aos clientes reenviar notificações de webhook por conta própria, eliminando a necessidade de acionar o suporte técnico. Esta ferramenta proporciona maior autonomia aos clientes, reduzindo significativamente o volume de tickets de suporte relacionados à sincronização de cobranças.
