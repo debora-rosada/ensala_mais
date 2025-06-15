@@ -3,21 +3,17 @@ import '../utils/project_colors.dart';
 
 class NavbarLink extends StatefulWidget {
   final String text;
-  final Widget modal; // ✅ Novo parâmetro para passar o modal
-
+  final Widget modal;
   const NavbarLink({
     super.key,
     required this.text,
     required this.modal,
   });
-
   @override
   State<NavbarLink> createState() => _NavbarLinkState();
 }
-
 class _NavbarLinkState extends State<NavbarLink> {
   Color _textColor = Colors.white;
-
   @override
   Widget build(BuildContext context) {
     return MouseRegion(
@@ -42,7 +38,7 @@ class _NavbarLinkState extends State<NavbarLink> {
             useSafeArea: true,
             context: context,
             builder: (context) {
-              return widget.modal; // ✅ Usa o modal passado no construtor
+              return widget.modal;
             },
           );
         },
