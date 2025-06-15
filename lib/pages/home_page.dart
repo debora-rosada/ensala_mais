@@ -1,7 +1,9 @@
+import 'package:ensala_mais/widgets/ensalamento_modal.dart';
 import 'package:ensala_mais/utils/project_colors.dart';
 import 'package:ensala_mais/widgets/navbar_link.dart';
 import 'package:ensala_mais/widgets/professor_modal.dart';
 import 'package:ensala_mais/widgets/sala_modal.dart';
+import 'package:ensala_mais/widgets/turma_modal.dart';
 import 'package:flutter/material.dart';
 import 'package:table_calendar/table_calendar.dart';
 
@@ -37,17 +39,6 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // appBar: AppBar(
-      //   leading: Row(
-      //     mainAxisAlignment: MainAxisAlignment.start,
-      //     children: [
-      //       NavbarLink(text: 'Professores'),
-      //       NavbarLink(text: 'Salas'),
-      //       NavbarLink(text: 'Turmas'),
-      //     ],
-      //   ),
-      //   backgroundColor: ProjectColors().mainGreen,
-      // ),
       body: Column(
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
@@ -65,6 +56,15 @@ class _HomePageState extends State<HomePage> {
                   text: 'Sala',
                   modal: SalaModal(), // Suponha que você tenha criado esse modal
                 ),
+                NavbarLink(
+                  text: 'Turma',
+                  modal: TurmaModal(), // Suponha que você tenha criado esse modal
+                ),
+                NavbarLink(
+                  text: 'Ensalamento',
+                  modal: EnsalamentoModal(), // Suponha que você tenha criado esse modal
+                ),
+                
                                   
               ],
             ),
