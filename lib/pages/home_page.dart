@@ -1,5 +1,5 @@
 import 'package:ensala_mais/utils/project_colors.dart';
-import 'package:ensala_mais/widgets/diciplina_modal.dart';
+import 'package:ensala_mais/widgets/disciplina_modal.dart';
 import 'package:ensala_mais/widgets/navbar_link.dart';
 import 'package:ensala_mais/widgets/professor_modal.dart';
 import 'package:ensala_mais/widgets/sala_modal.dart';
@@ -301,8 +301,7 @@ class _HomePageState extends State<HomePage> {
                 ),
                 NavbarLink(
                   text: 'Disciplina',
-                  modal:
-                      DiciplinaModal(), // Suponha que você tenha criado esse modal
+                  modal: DisciplinaModal(), // Suponha que você tenha criado esse modal
                 ),
                 NavbarLink(
                   text: 'Ensalamento',

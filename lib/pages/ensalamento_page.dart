@@ -80,14 +80,14 @@ class _EnsalamentoPageState extends State<EnsalamentoPage> {
     }
 
     try {
-      await supabase.from('ensalamentos').insert({
+      await supabase.from('ensalamento').insert({
         'dia_semana': _selectedDiaSemana,
-        'dia_mes': _diaMensalController.text,
-        'ID_horario': _selectedHorario,
-        'ID_turma': _selectedTurma,
-        'ID_disciplina': _selectedDisciplina,
-        'ID_professor': _selectedProfessor,
-        'ID_sala': _selectedSala,
+        'dia_mensal': _diaMensalController.text,
+        'ID_horario': int.tryParse(_selectedHorario ?? ''),
+        'ID_turma': int.tryParse(_selectedTurma ?? ''),
+        'ID_disciplina': int.tryParse(_selectedDisciplina ?? ''),
+        'ID_professor': int.tryParse(_selectedProfessor ?? ''),
+        'ID_sala': int.tryParse(_selectedSala ?? ''),
       });
 
       ScaffoldMessenger.of(context).showSnackBar(
