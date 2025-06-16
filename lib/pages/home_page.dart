@@ -22,16 +22,10 @@ class _HomePageState extends State<HomePage> {
   late DateTime _selectedDay = _focusedDay;
   final supabase = Supabase.instance.client;
 
-  final List<String> items = [
-    'Item1',
-    'Item2',
-    'Item3',
-    'Item4',
-  ];
   String? selectedValue;
 
-  List<Map<String, dynamic>> _ensalamentosHorario1 = [];
-  List<Map<String, dynamic>> _ensalamentosHorario2 = [];
+  List<Map<String, dynamic>> _ensalamentoHorario1 = [];
+  List<Map<String, dynamic>> _ensalamentoHorario2 = [];
   bool _isLoading = false;
 
   @override
@@ -59,30 +53,30 @@ class _HomePageState extends State<HomePage> {
     try {
       final dataSelecionada = _selectedDay;
       final diaSemana = _getDiaSemana(dataSelecionada.weekday);
-      final diaMes =
+      final diaMensal =
           "${dataSelecionada.day.toString().padLeft(2, '0')}/${dataSelecionada.month.toString().padLeft(2, '0')}/${dataSelecionada.year}";
 
       // Buscar ensalamentos com joins das tabelas relacionadas
       final response = await supabase.from('ensalamento').select('''
             *,
-            horario:horario_id(id, horario_inicio),
-            turma:turma_id(id, curso, semestre, turma),
-            disciplina:disciplina_id(id, name),
-            professore:professor_id(id, name),
-            sala:sala_id(id, nome, bloco, predio)
-          ''').eq('dia_semana', diaSemana).eq('dia_mes', diaMes);
+            horario:ID_horario(id, horario_inicio),
+            turma:ID_turma(id, curso, semestre, turma),
+            disciplina:ID_disciplina(id, name),
+            professor:ID_professor(id, name),
+            sala:ID_sala(id, name, bloco, predio)
+          ''').eq('dia_semana', diaSemana).eq('dia_mensal', diaMensal);
 
       // ignore: unnecessary_null_comparison
       if (response != null) {
-        final ensalamentos = response as List<dynamic>;
+        final ensalamento = response as List<dynamic>;
 
         // Separar por horário
-        _ensalamentosHorario1 = ensalamentos
+        _ensalamentoHorario1 = ensalamento
             .where((e) => e['horario']?['id'] == 1)
             .map((e) => e as Map<String, dynamic>)
             .toList();
 
-        _ensalamentosHorario2 = ensalamentos
+        _ensalamentoHorario2 = ensalamento
             .where((e) => e['horario']?['id'] == 2)
             .map((e) => e as Map<String, dynamic>)
             .toList();
@@ -186,7 +180,7 @@ class _HomePageState extends State<HomePage> {
                 const SizedBox(width: 4),
                 Expanded(
                   child: Text(
-                    ensalamento['professore']?['name'] ?? 'N/A',
+                    ensalamento['professor']?['name'] ?? 'N/A',
                     style: TextStyle(
                       fontSize: 12,
                       color: Colors.purple.shade700,
@@ -228,7 +222,7 @@ class _HomePageState extends State<HomePage> {
   }
 
   Widget _buildHorarioColumn(
-      String titulo, List<Map<String, dynamic>> ensalamentos) {
+      String titulo, List<Map<String, dynamic>> ensalamento) {
     return Expanded(
       child: Column(
         children: [
@@ -250,7 +244,7 @@ class _HomePageState extends State<HomePage> {
           ),
           const SizedBox(height: 8),
           Expanded(
-            child: ensalamentos.isEmpty
+            child: ensalamento.isEmpty
                 ? Center(
                     child: Text(
                       'Nenhum ensalamento\npara este horário',
@@ -262,9 +256,9 @@ class _HomePageState extends State<HomePage> {
                     ),
                   )
                 : ListView.builder(
-                    itemCount: ensalamentos.length,
+                    itemCount: ensalamento.length,
                     itemBuilder: (context, index) {
-                      return _buildEnsalamentoCard(ensalamentos[index]);
+                      return _buildEnsalamentoCard(ensalamento[index]);
                     },
                   ),
           ),
@@ -301,7 +295,8 @@ class _HomePageState extends State<HomePage> {
                 ),
                 NavbarLink(
                   text: 'Disciplina',
-                  modal: DisciplinaModal(), // Suponha que você tenha criado esse modal
+                  modal:
+                      DisciplinaModal(), // Suponha que você tenha criado esse modal
                 ),
                 NavbarLink(
                   text: 'Ensalamento',
@@ -355,7 +350,7 @@ class _HomePageState extends State<HomePage> {
                 Icon(Icons.calendar_today, color: Colors.blue.shade600),
                 const SizedBox(width: 8),
                 Text(
-                  'Ensalamentos para ${_selectedDay.day.toString().padLeft(2, '0')}/${_selectedDay.month.toString().padLeft(2, '0')}/${_selectedDay.year}',
+                  'Ensalamentos para ${_selectedDay.year}/${_selectedDay.month.toString().padLeft(2, '0')}/${_selectedDay.day.toString().padLeft(2, '0')}',
                   style: TextStyle(
                     fontSize: 16,
                     fontWeight: FontWeight.bold,
@@ -378,10 +373,10 @@ class _HomePageState extends State<HomePage> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         _buildHorarioColumn(
-                            '1º HORÁRIO - 19:00', _ensalamentosHorario1),
+                            '1º HORÁRIO - 19:00', _ensalamentoHorario1),
                         const SizedBox(width: 16),
                         _buildHorarioColumn(
-                            '2º HORÁRIO - 20:55', _ensalamentosHorario2),
+                            '2º HORÁRIO - 20:55', _ensalamentoHorario2),
                       ],
                     ),
                   ),
