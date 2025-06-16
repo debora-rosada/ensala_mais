@@ -2,22 +2,21 @@ import 'package:ensala_mais/utils/project_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
-class EnsalamentoModal extends StatefulWidget {
-  const EnsalamentoModal({super.key});
+class DiciplinaModal extends StatefulWidget {
+  const DiciplinaModal({super.key});
 
   @override
-  State<EnsalamentoModal> createState() => _EnsalamentoModalState();
+  State<DiciplinaModal> createState() => _DiciplinaModalState();
 }
 
-class _EnsalamentoModalState extends State<EnsalamentoModal> {
+class _DiciplinaModalState extends State<DiciplinaModal> {
   bool isFormVisible = false;
   bool isLoading = false;
   bool emptySelect = false;
   bool isEditMode = false;
   bool isInsertMode = false;
-  TextEditingController diaDaSemanaController = TextEditingController();
-  TextEditingController diamensalController = TextEditingController();
-  TextEditingController horarioController = TextEditingController();
+  TextEditingController nameController = TextEditingController();
+  TextEditingController emailController = TextEditingController();
   int selectedRowId = 0;
   List<Map<String, dynamic>> filteredItems = [];
   List<Map<String, dynamic>> allItems = [];
@@ -36,12 +35,12 @@ class _EnsalamentoModalState extends State<EnsalamentoModal> {
 
   String returnTitle() {
     if (isEditMode) {
-      return 'Edição de ensalamento';
+      return 'Edição de diciplina';
     }
     if (isInsertMode) {
-      return 'Cadastro de ensalamento';
+      return 'Cadastro de diciplina';
     }
-    return 'Visualização de ensalamento';
+    return 'Visualização de diciplina';
   }
 
   void _onSearchChanged(String query) {
@@ -66,7 +65,7 @@ class _EnsalamentoModalState extends State<EnsalamentoModal> {
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
-        future: Supabase.instance.client.from('ensalamento').select(),
+        future: Supabase.instance.client.from('diciplina').select(),
         builder: (context, snapshot) {
           isLoading = false;
           emptySelect = false;
@@ -151,9 +150,8 @@ class _EnsalamentoModalState extends State<EnsalamentoModal> {
                                             onPressed: () {
                                               setState(() {
                                                 resetControllerValue([
-                                                  diaDaSemanaController,
-                                                  diamensalController,
-                                                  horarioController,
+                                                  nameController,
+                                                  emailController,
                                                 ]);
                                                 isFormVisible = true;
                                                 isInsertMode = true;
@@ -177,15 +175,12 @@ class _EnsalamentoModalState extends State<EnsalamentoModal> {
                                               setState(() {
                                                 selectedRowId =
                                                     filteredItems[index]['id'];
-                                                diaDaSemanaController.text =
+                                                nameController.text =
                                                     filteredItems[index]
                                                         ['name'];
-                                                diamensalController.text =
+                                                emailController.text =
                                                     filteredItems[index]
                                                         ['email'];
-                                                horarioController.text =
-                                                    filteredItems[index]
-                                                        ['area'];
                                                 isFormVisible = true;
                                                 isEditMode = false;
                                                 isInsertMode = false;
@@ -255,22 +250,14 @@ class _EnsalamentoModalState extends State<EnsalamentoModal> {
                         if (isFormVisible)
                           TextField(
                             enabled: isInsertMode || isEditMode,
-                            controller: diaDaSemanaController,
-                            decoration:
-                                InputDecoration(label: Text('Dia da Semana')),
+                            controller: nameController,
+                            decoration: InputDecoration(label: Text('Nome')),
                           ),
                         if (isFormVisible)
                           TextField(
                             enabled: isInsertMode || isEditMode,
-                            controller: diamensalController,
-                            decoration:
-                                InputDecoration(label: Text('Dia da Mensal')),
-                          ),
-                        if (isFormVisible)
-                          TextField(
-                            enabled: isInsertMode || isEditMode,
-                            controller: horarioController,
-                            decoration: InputDecoration(label: Text('Horário')),
+                            controller: emailController,
+                            decoration: InputDecoration(label: Text('Email')),
                           ),
                         if (isFormVisible)
                           Padding(
@@ -303,7 +290,7 @@ class _EnsalamentoModalState extends State<EnsalamentoModal> {
                                       });
                                       try {
                                         await Supabase.instance.client
-                                            .from('ensalamento')
+                                            .from('diciplina')
                                             .delete()
                                             .eq('id', selectedRowId);
                                         setState(() {
@@ -362,28 +349,20 @@ class _EnsalamentoModalState extends State<EnsalamentoModal> {
                                           try {
                                             if (isEditMode) {
                                               await Supabase.instance.client
-                                                  .from('ensalamento')
+                                                  .from('diciplina')
                                                   .update({
-                                                'dia_da_semana':
-                                                    diaDaSemanaController.text,
-                                                'diamensal':
-                                                    diamensalController.text,
-                                                'horario':
-                                                    horarioController.text,
+                                                'name': nameController.text,
+                                                'email': emailController.text,
                                               }).eq('id', selectedRowId);
                                               setState(() {
                                                 isFormVisible = false;
                                               });
                                             } else {
                                               await Supabase.instance.client
-                                                  .from('ensalamento')
+                                                  .from('diciplina')
                                                   .insert({
-                                                'dia_da_semana':
-                                                    diaDaSemanaController.text,
-                                                'diamensal':
-                                                    diamensalController.text,
-                                                'horario':
-                                                    horarioController.text,
+                                                'name': nameController.text,
+                                                'email': emailController.text,
                                               });
                                               setState(() {
                                                 isFormVisible = false;

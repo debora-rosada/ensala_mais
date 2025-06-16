@@ -1,11 +1,12 @@
-import 'package:ensala_mais/widgets/ensalamento_modal.dart';
 import 'package:ensala_mais/utils/project_colors.dart';
+import 'package:ensala_mais/widgets/diciplina_modal.dart';
 import 'package:ensala_mais/widgets/navbar_link.dart';
 import 'package:ensala_mais/widgets/professor_modal.dart';
 import 'package:ensala_mais/widgets/sala_modal.dart';
 import 'package:ensala_mais/widgets/turma_modal.dart';
 import 'package:flutter/material.dart';
 import 'package:table_calendar/table_calendar.dart';
+import 'package:ensala_mais/pages/ensalamento_page.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -20,6 +21,14 @@ class _HomePageState extends State<HomePage> {
 
   // Instead of initializing in initState, just add the "late" modifier.
   late DateTime _selectedDay = _focusedDay;
+
+  final List<String> items = [
+    'Item1',
+    'Item2',
+    'Item3',
+    'Item4',
+  ];
+  String? selectedValue;
 
   @override
   void initState() {
@@ -54,18 +63,29 @@ class _HomePageState extends State<HomePage> {
                 ),
                 NavbarLink(
                   text: 'Sala',
-                  modal: SalaModal(), // Suponha que você tenha criado esse modal
+                  modal:
+                      SalaModal(), // Suponha que você tenha criado esse modal
                 ),
                 NavbarLink(
                   text: 'Turma',
-                  modal: TurmaModal(), // Suponha que você tenha criado esse modal
+                  modal:
+                      TurmaModal(), // Suponha que você tenha criado esse modal
+                ),
+                NavbarLink(
+                  text: 'Disciplina',
+                  modal:
+                      DiciplinaModal(), // Suponha que você tenha criado esse modal
                 ),
                 NavbarLink(
                   text: 'Ensalamento',
-                  modal: EnsalamentoModal(), // Suponha que você tenha criado esse modal
+                  modal: null, // Não abre modal diretamente
+                  onPressed: () {
+                    Navigator.of(context).push(
+                      MaterialPageRoute(
+                          builder: (context) => const EnsalamentoPage()),
+                    );
+                  },
                 ),
-                
-                                  
               ],
             ),
           ),
@@ -92,6 +112,74 @@ class _HomePageState extends State<HomePage> {
             selectedDayPredicate: (day) {
               return isSameDay(_selectedDay, day);
             },
+          ),
+          Divider(),
+          Text('Ensalamento'),
+          SizedBox(height: 20),
+          SizedBox(
+            height: 100,
+            child: ListView.builder(
+              itemCount: 2,
+              itemBuilder: (context, index) {
+                return Container(
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 24),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                            '${index + 1}º horário ${index == 0 ? "19:00" : "20:55"}'),
+                        Column(
+                          children: [
+                            Text('Turma'),
+                            DropdownButtonHideUnderline(
+                              child: DropdownButton<String>(
+                                isExpanded: true,
+                                hint: Text(
+                                  'Select Item',
+                                  style: TextStyle(
+                                    fontSize: 14,
+                                    color: Theme.of(context).hintColor,
+                                  ),
+                                ),
+                                items: items
+                                    .map((String item) =>
+                                        DropdownMenuItem<String>(
+                                          value: item,
+                                          child: Text(
+                                            item,
+                                            style: const TextStyle(
+                                              fontSize: 14,
+                                            ),
+                                          ),
+                                        ))
+                                    .toList(),
+                                value: selectedValue,
+                                onChanged: (String? value) {
+                                  setState(() {
+                                    selectedValue = value;
+                                  });
+                                },
+                                // buttonStyleData: const ButtonStyleData(
+                                //   padding: EdgeInsets.symmetric(horizontal: 16),
+                                //   height: 40,
+                                //   width: 140,
+                                // ),
+                                // menuItemStyleData: const MenuItemStyleData(
+                                //   height: 40,
+                                // ),
+                              ),
+                            ),
+                          ],
+                        ),
+                        Text('Sala'),
+                        Text('Professor'),
+                      ],
+                    ),
+                  ),
+                );
+              },
+            ),
           ),
         ],
       ),
