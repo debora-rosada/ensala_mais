@@ -9,7 +9,7 @@ import 'utils/project_colors.dart';
 Future<void> main() async {
   await dotenv.load(fileName: ".env");
   await Supabase.initialize(
-    url: 'https://dvwudwlymuhkxtmynxpo.supabase.co/storage/v1/s3',
+    url: 'https://dvwudwlymuhkxtmynxpo.supabase.co',
     anonKey: dotenv.env['ANONKEYSUPABASE']!,
     // ANONKEYSUPABASE='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImR2d3Vkd2x5bXVoa3h0bXlueHBvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDE3MzkzMDQsImV4cCI6MjA1NzMxNTMwNH0.a5RlbNzOw_hrBkNazgcXAo6774rPpXK7gS3lKZk1Hww'
   );

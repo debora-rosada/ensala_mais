@@ -59,7 +59,7 @@ class _TurmaModalState extends State<TurmaModal> {
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
-        future: Supabase.instance.client.from('professor').select(),
+        future: Supabase.instance.client.from('turma').select(),
         builder: (context, snapshot) {
           isLoading = false;
           emptySelect = false;
@@ -294,7 +294,7 @@ class _TurmaModalState extends State<TurmaModal> {
                                       });
                                       try {
                                         await Supabase.instance.client
-                                            .from('professor')
+                                            .from('turma')
                                             .delete()
                                             .eq('id', selectedRowId);
                                         setState(() {
@@ -353,7 +353,7 @@ class _TurmaModalState extends State<TurmaModal> {
                                           try {
                                             if (isEditMode) {
                                               await Supabase.instance.client
-                                                  .from('professor')
+                                                  .from('turma')
                                                   .update({
                                                 'curso': cursoController.text,
                                                 'semestre': semestreController.text,
@@ -364,7 +364,7 @@ class _TurmaModalState extends State<TurmaModal> {
                                               });
                                             } else {
                                               await Supabase.instance.client
-                                                  .from('professor')
+                                                  .from('turma')
                                                   .insert({
                                                 'curso': cursoController.text,
                                                 'semestre': semestreController.text,

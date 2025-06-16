@@ -11,4 +11,5 @@ class ProjectColors {
   Color cursorColor = Color(0xFF50713c);
   Color cursortextColor = Color.fromARGB(255, 43, 44, 42);
   Color disableButtonBackground = Colors.grey;
+  Color ensalamento = Colors.white;
 }
